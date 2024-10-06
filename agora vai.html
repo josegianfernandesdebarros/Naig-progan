@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Linguagens de Programação</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+            min-height: 100vh;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+        }
+        main {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            margin-bottom: 0.5rem;
+        }
+        select, textarea, button {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        #output {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Conversor de Linguagens de Programação</h1>
+        <p>Converta código entre diferentes linguagens</p>
+    </header>
+    <main>
+        <div>
+            <select id="sourceLanguage">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="javascript">JavaScript</option>
+                <option value="cpp">C++</option>
+            </select>
+            <select id="targetLanguage">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="javascript">JavaScript</option>
+                <option value="cpp">C++</option>
+            </select>
+        </div>
+        <textarea id="sourceCode" rows="10" placeholder="Cole seu código aqui"></textarea>
+        <button onclick="convertCode()">Converter</button>
+        <pre id="output"></pre>
+    </main>
+    <script>
+        function convertCode() {
+            const sourceLanguage = document.getElementById('sourceLanguage').value;
+            const targetLanguage = document.getElementById('targetLanguage').value;
+            const sourceCode = document.getElementById('sourceCode').value;
+            const output = document.getElementById('output');
+
+            if (sourceLanguage === targetLanguage) {
+                output.textContent = "As linguagens de origem e destino são as mesmas. Nenhuma conversão necessária.";
+                return;
+            }
+
+            output.textContent = "Convertendo...";
+
+            // Simulação de conversão de código
+            const convertedCode = simulateConversion(sourceLanguage, targetLanguage, sourceCode);
+            output.textContent = convertedCode;
+        }
+
+        function simulateConversion(sourceLanguage, targetLanguage, sourceCode) {
+            // Exemplo de simulação de conversão
+            let convertedCode = sourceCode;
+
+            // Conversões básicas
+            if (sourceLanguage === 'python') {
+                if (targetLanguage === 'java') {
+                    convertedCode = convertedCode
+                        .replace(/print\((.*)\)/g, 'System.out.println($1);')
+                        .replace(/def (.+?):/g, 'void $1() {')
+                        .replace(/if (.+):/g, 'if ($1) {')
+                        .replace(/else:/g, '} else {')
+                        .replace(/for (.+) in (.+):/g, 'for ($1 : $2) {')
+                        .replace(/while (.+):/g, 'while ($1) {')
+                        .replace(/return (.*)/g, 'return $1;')
+                        .replace(/#/g, '//');
+                } else if (targetLanguage === 'javascript') {
+                    convertedCode = convertedCode
+                        .replace(/print\((.*)\)/g, 'console.log($1);')
+                        .replace(/def (.+?):/g, 'function $1() {')
+                        .replace(/if (.+):/g, 'if ($1) {')
+                        .replace(/else:/g, '} else {')
+                        .replace(/for (.+) in (.+):/g, 'for (let $1 of $2) {')
+                        .replace(/while (.+):/g, 'while ($1) {')
+                        .replace(/return (.*)/g, 'return $1;')
+                        .replace(/#/g, '//');
+                } else if (targetLanguage === 'cpp') {
+                    convertedCode = convertedCode
+                        .replace(/print\((.*)\)/g, 'std::cout << $1 << std::endl;')
+                        .replace(/def (.+?):/g, 'void $1() {')
+                        .replace(/if (.+):/g, 'if ($1) {')
+                        .replace(/else:/g, '} else {')
+                        .replace(/for (.+) in (.+):/g, 'for (auto $1 : $2) {')
+                        .replace(/while (.+):/g, 'while ($1) {')
+                        .replace(/return (.*)/g, 'return $1;')
+                        .replace(/#/g, '//');
+                }
+            } else if (sourceLanguage === 'java') {
+                if (targetLanguage === 'python') {
+                    convertedCode = convertedCode
+                        .replace(/System\.out\.println\((.*)\);/g, 'print($1)')
+                        .replace(/void (.+)\(\)/g, 'def $1():')
+                        .replace(/if (.+) \{/g, 'if $1:')
+                        .replace(/else \{/g, 'else:')
+                        .replace(/for \((.+) : (.+)\) \{/g, 'for $1 in $2:')
+                        .replace(/while \((.+)\) \{/g, 'while $1:')
+                        .replace(/return (.*);/g, 'return $1');
+                } else if (targetLanguage === 'javascript') {
+                    convertedCode = convertedCode
+                        .replace(/System\.out\.println\((.*)\);/g, 'console.log($1);')
+                        .replace(/void (.+)\(\)/g, 'function $1() {')
+                        .replace(/if (.+) \{/g, 'if ($1) {')
+                        .replace(/else \{/g, '} else {')
+                        .replace(/for \((.+) : (.+)\) \{/g, 'for (let $1 of $2) {')
+                        .replace(/while \((.+)\) \{/g, 'while ($1) {')
+                        .replace(/return (.*);/g, 'return $1;');
+                } else if (targetLanguage === 'cpp') {
+                    convertedCode = convertedCode
+                        .replace(/System\.out\.println\((.*)\);/g, 'std::cout << $1 << std::endl;')
+                        .replace(/void (.+)\(\)/g, 'void $1() {')
+                        .replace(/if (.+) \{/g, 'if ($1) {')
+                        .replace(/else \{/g, '} else {')
+                        .replace(/for \((.+) : (.+)\) \{/g, 'for (auto $1 : $2) {')
+                        .replace(/while \((.+)\) \{/g, 'while ($1) {')
+                        .replace(/return (.*);/g, 'return $1;');
+                }
+            } else if (sourceLanguage === 'javascript') {
+                if (targetLanguage === 'python') {
+                    convertedCode = convertedCode
+                        .replace(/console\.log\((.*)\);/g, 'print($1)')
+                        .replace(/function (.+)\(\) {/g, 'def $1():')
+                        .replace(/if \((.+)\) {/g, 'if $1:')
+                        .replace(/else {/g, 'else:')
+                        .replace(/for \((.+) of (.+)\) {/g, 'for $1 in $2:')
+                        .replace(/while \((.+)\) {/g, 'while $1:')
+                        .replace(/return (.*);/g, 'return $1');
+                } else if (targetLanguage === 'java') {
+                    convertedCode = convertedCode
+                        .replace(/console\.log\((.*)\);/g, 'System.out.println($1);')
+                        .replace(/function (.+)\(\) {/g, 'void $1() {')
+                        .replace(/if \((.+)\) {/g, 'if ($1) {')
+                        .replace(/else {/g, '} else {')
+                        .replace(/for \((.+) of (.+)\) {/g, 'for ($1 : $2) {')
+                        .replace(/while \((.+)\) {/g, 'while ($1) {')
+                        .replace(/return (.*);/g, 'return $1;');
+                } else if (targetLanguage === 'cpp') {
+                    convertedCode = convertedCode
+                        .replace(/console\.log\((.*)\);/g, 'std::cout << $1 << std::endl;')
+                        .replace(/function (.+)\(\) {/g, 'void $1() {')
+                        .replace(/if \((.+)\) {/g, 'if ($1) {')
+                        .replace(/else {/g, '} else {')
+                        .replace(/for \((.+) of (.+)\) {/g, 'for (auto $1 : $2) {')
+                        .replace(/while \((.+)\) {/g, 'while ($1) {')
+                        .replace(/return (.*);/g, 'return $1;');
+                }
+            } else if (sourceLanguage === 'cpp') {
+                if (targetLanguage === 'python') {
+                    convertedCode = convertedCode
+                        .replace(/std::cout << (.*) << std::endl;/g, 'print($1)')
+                        .replace(/void (.+)\(\)/g, 'def $1():')
+                        .replace(/if \((.+)\) {/g, 'if $1:')
+                        .replace(/else {/g, 'else:')
+                        .replace(/for \((.+) : (.+)\) {/g, 'for $1 in $2:')
+                        .replace(/while \((.+)\) {/g, 'while $1:')
+                        .replace(/return (.*);/g, 'return $1');
+                } else if (targetLanguage === 'java') {
+                    convertedCode = convertedCode
+                        .replace(/std::cout << (.*) << std::endl;/g, 'System.out.println($1);')
+                        .replace(/void (.+)\(\)/g, 'void $1() {')
+                        .replace(/if \((.+)\) {/g, 'if ($1) {')
+                        .replace(/else {/g, '} else {')
+                        .replace(/for \((.+) : (.+)\) {/g, 'for ($1 : $2) {')
+                        .replace(/while \((.+)\) {/g, 'while ($1) {')
+                        .replace(/return (.*);/g, 'return $1;');
+                } else if (targetLanguage === 'javascript') {
+                    convertedCode = convertedCode
+                        .replace(/std::cout << (.*) << std::endl;/g, 'console.log($1);')
+                        .replace(/void (.+)\(\)/g, 'function $1() {')
+                        .replace(/if \((.+)\) {/g, 'if ($1) {')
+                        .replace(/else {/g, '} else {')
+                        .replace(/for \((.+) : (.+)\) {/g, 'for ($1 of $2) {')
+                        .replace(/while \((.+)\) {/g, 'while ($1) {')
+                        .replace(/return (.*);/g, 'return $1;');
+                }
+            }
+
+            return `Código convertido de ${sourceLanguage} para ${targetLanguage}:\n\n${convertedCode}`;
+        }
+
+        // Evitar a seleção da mesma linguagem
+        document.getElementById('sourceLanguage').addEventListener('change', updateLanguageOptions);
+        document.getElementById('targetLanguage').addEventListener('change', updateLanguageOptions);
+
+        function updateLanguageOptions() {
+            const sourceLanguage = document.getElementById('sourceLanguage');
+            const targetLanguage = document.getElementById('targetLanguage');
+
+            for (let i = 0; i < sourceLanguage.options.length; i++) {
+                sourceLanguage.options[i].disabled = sourceLanguage.options[i].value === targetLanguage.value;
+                targetLanguage.options[i].disabled = targetLanguage.options[i].value === sourceLanguage.value;
+            }
+        }
+
+        // Inicializar as opções de linguagem
+        updateLanguageOptions();
+    </script>
+</body>
+</html>
